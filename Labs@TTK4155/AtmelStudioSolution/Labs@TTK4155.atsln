@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Atmel Studio Solution File, Format Version 11.00
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LabExc01-HelloUSART", "..\Excersise1\01_HelloUSART\LabExc01-HelloUSART\LabExc01-HelloUSART.cproj", "{DB8CA153-FCB4-482F-9393-EA60623ED7C5}"
 EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LabExc02-XMEM", "..\Excersise2\LabExc02-XMEM\LabExc02-XMEM.cproj", "{AB057AD6-B828-43A0-9254-8832E817591B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -13,6 +15,10 @@ Global
 		{DB8CA153-FCB4-482F-9393-EA60623ED7C5}.Debug|AVR.Build.0 = Debug|AVR
 		{DB8CA153-FCB4-482F-9393-EA60623ED7C5}.Release|AVR.ActiveCfg = Release|AVR
 		{DB8CA153-FCB4-482F-9393-EA60623ED7C5}.Release|AVR.Build.0 = Release|AVR
+		{AB057AD6-B828-43A0-9254-8832E817591B}.Debug|AVR.ActiveCfg = Debug|AVR
+		{AB057AD6-B828-43A0-9254-8832E817591B}.Debug|AVR.Build.0 = Debug|AVR
+		{AB057AD6-B828-43A0-9254-8832E817591B}.Release|AVR.ActiveCfg = Release|AVR
+		{AB057AD6-B828-43A0-9254-8832E817591B}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
