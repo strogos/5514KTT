@@ -36,10 +36,10 @@ void xmemInit(void)
 
 void xmemTest()
 {
-	volatile char *ext_ram = (char *) 0x1800;  // Start address for the XMEM   
+	volatile uint8_t *ext_ram = 0x1800;  // Start address for the XMEM   
 	unsigned int i, werrors, rerrors; 
 	werrors = 0;  rerrors = 0;
-	unsigned char testvalue;
+	uint8_t testvalue;
 	
 	printf("Starting XMEM test...\r\n");   
 	
@@ -109,15 +109,16 @@ void xmemExampleFunction()
 	         }
 	     }
 		 
-		int freeRam () 
-		{
-			extern int __heap_start;
-			extern int *__brkval;
-			int v;
-			int returnVar;
+}
+
+int freeRam ()
+{
+	extern int __heap_start;
+	extern int *__brkval;
+	int v;
+	int returnVar;
 			
-			returnVar=(int) (&v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval));
-		}
+	returnVar=(int) (&v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval));
 }
 
 void vXMEMTestTask()
@@ -174,14 +175,12 @@ void vXMEMTestTask()
 
 int xmemWriteTo(unsigned int address, unsigned int data)
 {
-	//uint8_t *mem;
-	//mem=malloc(8);
 	
 	//Start address for the SRAM
-	volatile char *ext_ram = (char *) 0x02C4;
+	uint8_t *memory = 0x1800;
 
 	//Write address on SRAM
-	ext_ram[address] = data;
+	memory[address] = data;
 	
 	return 0;
 }
@@ -189,16 +188,8 @@ int xmemWriteTo(unsigned int address, unsigned int data)
 unsigned int xmemReadFrom(unsigned int address)
 {
 	//Start address for the xmem
-	volatile char *ext_ram = (char *) 0x02C4;
+	uint8_t *memory = 0x1800;
 	
 	//Read address from SRAM
-	return ext_ram[address];
-}
-
-unsigned int xmemWriteAndReadTest(void)
-{
-	xmemWriteTo(1,0x20);
-	
-	
-	return xmemReadFrom(1);
+	return memory[address];
 }

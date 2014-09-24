@@ -38,12 +38,12 @@ int main (void)
 	//Send a string of data
 	usartSendDataString(dataString);
 	
-	if(USART_ENABLE_PRINTF)
+	if(USART_ENABLE_printf)
 		printf("NOTEFICATION: printf() is LINKED to Tx on USART!\r\n");
 	
 	//Make some conversation...
 	usartSendDataString("Do you want to echo Rx UART data using interrupts?\r\n*Enter 'y' to accept");
-	if(byteOfData=usartReceiveByte()=='y')
+	if(1)//byteOfData=usartReceiveByte()=='y')
 	{
 		interruptOn=true;
 		UCSR0B |= (1<<RXCIE0); // Enable the USART Receive Complete interrupt (USART_RXCIE0)

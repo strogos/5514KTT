@@ -40,13 +40,13 @@ void usartInitialize()
 		UCSR0C = (1<<URSEL0)|(1<<USBS0)|(3<<UCSZ00)|(1<<UPM01);
 		
 		/*
-		* If "USART_ENABLE_PRINTF" is set we can bind printf to "usartSendByte(..)" function by calling fdevopen(..).
+		* If "USART_ENABLE_printf" is set we can bind printf to "usartSendByte(..)" function by calling fdevopen(..).
 		* About fdevopen():
 		*	- First parameter: address to a function which outputs a single character.
 		*	- Second parameter: optional; used for get functions, ie. receiving a character from the USART.
 		*	- BEAWARE that this function uses malloc()!! VERY resource demanding. 
 		*/
-		if(USART_ENABLE_PRINTF)
+		if(USART_ENABLE_printf)
 			fdevopen(&usartSendByte,NULL);
 		
 		

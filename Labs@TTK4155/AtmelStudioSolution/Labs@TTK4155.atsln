@@ -5,6 +5,10 @@ Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LabExc01-HelloUSART", "..\E
 EndProject
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LabExc02-XMEM", "..\Excersise2\LabExc02-XMEM\LabExc02-XMEM.cproj", "{AB057AD6-B828-43A0-9254-8832E817591B}"
 EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LabExc03-Joystick", "..\Excersise3\LabExc03-Joystick\LabExc03-Joystick\LabExc03-Joystick.cproj", "{581FC11D-DEFB-4BEE-B396-2553006C1C47}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LabExc04-OLED", "..\Excersise4\LabExc04-OLED\LabExc04-OLED\LabExc04-OLED.cproj", "{BC75ED00-5EE3-4262-BD9E-F0FD12109CC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -19,6 +23,14 @@ Global
 		{AB057AD6-B828-43A0-9254-8832E817591B}.Debug|AVR.Build.0 = Debug|AVR
 		{AB057AD6-B828-43A0-9254-8832E817591B}.Release|AVR.ActiveCfg = Release|AVR
 		{AB057AD6-B828-43A0-9254-8832E817591B}.Release|AVR.Build.0 = Release|AVR
+		{581FC11D-DEFB-4BEE-B396-2553006C1C47}.Debug|AVR.ActiveCfg = Debug|AVR
+		{581FC11D-DEFB-4BEE-B396-2553006C1C47}.Debug|AVR.Build.0 = Debug|AVR
+		{581FC11D-DEFB-4BEE-B396-2553006C1C47}.Release|AVR.ActiveCfg = Release|AVR
+		{581FC11D-DEFB-4BEE-B396-2553006C1C47}.Release|AVR.Build.0 = Release|AVR
+		{BC75ED00-5EE3-4262-BD9E-F0FD12109CC0}.Debug|AVR.ActiveCfg = Debug|AVR
+		{BC75ED00-5EE3-4262-BD9E-F0FD12109CC0}.Debug|AVR.Build.0 = Debug|AVR
+		{BC75ED00-5EE3-4262-BD9E-F0FD12109CC0}.Release|AVR.ActiveCfg = Release|AVR
+		{BC75ED00-5EE3-4262-BD9E-F0FD12109CC0}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -56,7 +56,11 @@ When doing integer division it is usually better to round to the nearest integer
 /*DEFINITIONS/CONFIG*/
 #define USART_OPERATING_MODE_U2X false//----//Define USART operating mode
 #define USART_BAUDRATE 9600//---------------//Define USART baud rate
-#define USART_ENABLE_PRINTF true//----------//Link Printf() to usart (very resource demanding)
+#define USART_ENABLE_printf true//----------//Link Printf() to usart (very resource demanding)
+
+
+
+
 
 /*Function Declarations*/
 void usartInitialize(void);
