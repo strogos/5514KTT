@@ -28,7 +28,7 @@ uint8_t byteOfData=0;
 //main function
 int main (void)
 {
-	// Initialise external memory interface // NB: "xmemInit()" must be called before any function that uses heap memory!!
+	// Initialize external memory interface // NB: "xmemInit()" must be called before any function that uses heap memory!!
 	xmemInit(); //enable external memory addressing bits to be moved from this function!
 	
 	
@@ -69,78 +69,4 @@ int main (void)
 		_delay_ms(200);
 	}
 
-	
-	/*joystickCalibrate();
-	int8_t x,y=0;
-	while(true)
-	{	
-		test=joystickInitialize(test);
-		//buffer1=(test[0]/2);
-		//test= joystickInitialize();
-		//printf("\n\r%d",test[0]);
-		//printf("\n\r%d",buffer1);
-		
-		buffer1=adcRead(ADC_CH1_JOY_Y_AXIS);
-		buffer2=adcRead(ADC_CH2_JOY_X_AXIS);
-		//printf("\n\rX POS: %d\n\r",buffer2);
-		getXPosition(buffer2,&x);
-		//printf("x POS: %d",x);
-		getYPosition(buffer1,&y);
-		printf("\n\ry = %d, x = %d, Unscaled_Y = %d, Uncaled_X = %d",y,x,test[2],test[3]);
-		//printf("\n\rY = %d, X = %d, Mid_Y = %d, Mid_X = %d",test[0],test[1],test[2],test[3]);
-		_delay_ms(150);
-		
-	}*/
-
-	//free(test); //equivalent of "delete [] test"
-	
-	//Send a string of data
-	//usartSendDataString(dataString);
-	
-	//if(USART_ENABLE_printf)
-		//printf("NOTEFICATION: printf() is LINKED to Tx on USART!\r\n");
-	
-	//Make some conversation...
-	//usartSendDataString("Do you want to echo Rx UART data using interrupts?\r\n*Enter 'y' to accept");
-	/*if(byteOfData=usartReceiveByte()=='y')
-	{
-		interruptOn=true;
-		UCSR0B |= (1<<RXCIE0); // Enable the USART Receive Complete interrupt (USART_RXCIE0)
-		sei(); //macro for enabling interrupts globally (<avr/interrupt.h> must be included)
-		usartSendDataString("->interrupt on Rx is ENABLED\r\n");
-	}
-	else
-		usartSendDataString("->interrupt on Rx DISABLED\r\n");
-	*/
-	
-	//printf("\r\n[memCheck]: ");
-	//int freeRAM;
-	//freeRam();
-	
-	//printf("%d",freeRam());
-/*	
-	usartSendDataString("\r\n\n@ECHO ON\r\n");
-	
-	//Program loop
-	while(true)
-	{
-		if(!interruptOn)
-		{
-			//echo received data
-			byteOfData=usartReceiveByte();
-			usartSendByte(byteOfData);
-		}
-	}
-	
-*/
-}
-
-//interrupt function
-ISR (USART0_RXC_vect,ISR_BLOCK)
-{
-	if (interruptOn)
-	{
-		byteOfData=UDR0;//grab byte
-		UDR0=byteOfData;//echo grabbed byte
-	}
 }

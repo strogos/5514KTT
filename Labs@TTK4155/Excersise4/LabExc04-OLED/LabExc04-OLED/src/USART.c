@@ -8,9 +8,7 @@
 
 #include "USART.h"
 
-///<summary>
-///Configure USART HVORFOR I HELVETE FUNKER IKKE SUMMARY I SHELLET????
-///</summary>
+
 void usartInitialize()
 {
 		/*UBRR (USART Baud Register) variable to hold calculated serial port config values (16 bits)
@@ -57,32 +55,67 @@ void usartInitialize()
 		}
 		
 		
-		//Enable the interrupts globally. //--------*****-////TO DO: Interrupt-based USART
-		//SREG |= _BV(SREG_I);	
+		if(USART_INTERRUPT_RX)
+		{
+			UCSR0B |= (1<<RXCIE0); // Enable the USART Receive Complete interrupt (USART_RXCIE0)
+			//Enable the interrupts globally. 
+			sei();
+		}
 }
 
-///<summary>
-/////Receive a byte using USART
-///</summary>
-uint8_t usartReceiveByte(void)
+
+
+
+/*USART.c "GLOBAL" VARIABLES*/
+//define a structure to hold usart.c "global" variables to save some memory space
+typedef struct 
 {
-	while((UCSR0A&(1<<RXC0))==0);//---------------------------//wait until data is received
-	
-	return UDR0;//-------------------------------------------//return received data
+		volatile uint8_t RXdata;
+		uint8_t RXdataBuffer;		
+		
+}UsartGlobalStruct;
+//assign the global structure defined above
+UsartGlobalStruct globalVariables;
+
+//volatile uint8_t byteOfData; //to hold data on RX interrupt
+//interrupt if receiving data
+ISR (USART0_RXC_vect,ISR_BLOCK)
+{
+	if (USART_INTERRUPT_RX)
+	{
+		UsartGlobalStruct *ptr=&globalVariables;	
+		ptr->RXdata=UDR0;//grab RX byte 
+	}
+}
+uint8_t usartReadByte(void)
+{
+	if(USART_INTERRUPT_RX)
+	{
+		UsartGlobalStruct *ptr=&globalVariables;
+		ptr->RXdataBuffer=ptr->RXdata;//--------//dataBuffer to hold previously received data
+		ptr->RXdata=NULL;//-------------------//make sure that read data is not latched in memory until next interrupt occurs
+		return ptr->RXdataBuffer;
+		
+	}
+	else
+	{
+		while((UCSR0A&(1<<RXC0))==0);//---------------------------//wait until data is received
+		return UDR0;//-------------------------------------------//return received data
+	}
 }
 
-///<summary>
-///Send a byte using USART
-///</summary>
+
+
+
+
+//Send a byte using USART
 void usartSendByte(uint8_t byteToSend)
 {
 		while((UCSR0A&(1<<UDRE0))==0);//---------------//Only transmit data if data bus is available (not already transmitting)
 		UDR0=byteToSend;//---------------------------//transmit byte
 }
 
-///<summary>
-///Send a string of data using USART
-///</summary>
+//Send a string of data using USART
 void usartSendDataString(const char *dataString)
 {
 	while(*dataString)
@@ -91,3 +124,4 @@ void usartSendDataString(const char *dataString)
 		dataString++;
 	}
 }
+

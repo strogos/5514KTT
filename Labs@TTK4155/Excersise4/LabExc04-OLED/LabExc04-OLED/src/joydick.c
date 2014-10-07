@@ -12,7 +12,7 @@
 
 
 
-uint8_t *joystickInitialize(uint8_t *joyPos)//DELETE
+uint8_t *joyGetUnscaledXY(uint8_t *joyPos)
 {
 	
 	uint8_t buffer1=adcRead(ADC_CH1_JOY_Y_AXIS);
@@ -25,115 +25,90 @@ uint8_t *joystickInitialize(uint8_t *joyPos)//DELETE
 	joyPos[2]=buffer3;
 	joyPos[3]=buffer4;
 	
-	return joyPos;	
+	return joyPos;
+	
 }
 
 
-
-//calibration values (if global= use typedef struct to save memory)
-/*Example:
+/*USART.c "GLOBAL" VARIABLES*/
+//define a structure to hold joydick.c "global" variables to save some memory space
 typedef struct
 {
-	uint8_t joystick;
-}t;
-t global  //Declare a global structure
-
-__C_task void main(void)
-{
-	t *joystick = &global;
-}*/
-uint8_t array[6];//TODO: make joystick structure
-
-void joystickCalibrate()
-{
 	
+	uint8_t joyData[6];//-------//Store calibration parameters in memory
+	
+	
+}globalStruct;
+globalStruct globalVar;
+
+uint8_t array[6];
+void joyCalibrateXY()
+{
+	//some buffer variables/ptrs
 	uint8_t byteOfData=0;
-	
+	globalStruct *ptr=&globalVar;
 	
 	printf("\n\rPut joystick in center position\n\r");
-	if(byteOfData=usartReceiveByte()=='y');	
-	array[0]=adcRead(ADC_CH1_JOY_Y_AXIS);
-	array[1]=adcRead(ADC_CH2_JOY_X_AXIS);
-	
+	while(((byteOfData=usartReadByte())!='y'));
+	ptr->joyData[JOY_Y_AXIS_MID]=adcRead(ADC_CH1_JOY_Y_AXIS);
+	ptr->joyData[JOY_X_AXIS_MID]=adcRead(ADC_CH2_JOY_X_AXIS);
 	
 	printf("\n\rGet X_min\n\r");
-	if(byteOfData=usartReceiveByte()=='y');
-	array[2]=adcRead(ADC_CH2_JOY_X_AXIS);//X_min
-
+	while(((byteOfData=usartReadByte())!='y'));
+	ptr->joyData[JOY_X_AXIS_MIN]=adcRead(ADC_CH2_JOY_X_AXIS);
+	
 	printf("\n\rGet X_max\n\r");
-	if(byteOfData=usartReceiveByte()=='y');
-	array[3]=adcRead(ADC_CH2_JOY_X_AXIS);//X_MAX
+	while(((byteOfData=usartReadByte())!='y'));
+	ptr->joyData[JOY_X_AXIS_MAX]=adcRead(ADC_CH2_JOY_X_AXIS);
 	
 	printf("\n\rGet Y_min\n\r");
-	if(byteOfData=usartReceiveByte()=='y');
-	array[4]=adcRead(ADC_CH1_JOY_Y_AXIS);//Y_min
+	while(((byteOfData=usartReadByte())!='y'));
+	ptr->joyData[JOY_Y_AXIS_MIN]=adcRead(ADC_CH1_JOY_Y_AXIS);
 	
 	printf("\n\rGet Y_max\n\r");
-	if(byteOfData=usartReceiveByte()=='y');
-	array[5]=adcRead(ADC_CH1_JOY_Y_AXIS);//Y_MAX
+	while(((byteOfData=usartReadByte())!='y'));
+	ptr->joyData[JOY_Y_AXIS_MAX]=adcRead(ADC_CH1_JOY_Y_AXIS);
+}
+
+
+int8_t calcCalibParam(uint8_t x1,uint8_t x2,uint8_t x)
+{
+	/*scale incoming values as a linear eq. with limits: 0<y<100; x2<x<x1;*/	
+	//uint8_t byteOfData=0;
 	
-	/*for(int j=0;j<=5;j++)
-		{
-			printf("\n\r%d\n\r",array[j]);	
-		}
+	double slope=((double)JOY_YX_AXIS_SCALING_PARAM/(double)(x2-x1));
+	double f=(slope*((double)(x-x1)));
+	
+	return (int8_t)f;	
+}
+
+
+void joyGetPosX(uint8_t xUncalibratedPos,int8_t *xCalibratedPos)
+{
+	globalStruct *ptr=&globalVar;
 		
-	
-	if(byteOfData=usartReceiveByte()=='y');*/
-	//Calbrate X-axis	
-//	xParameters[0]=calcCalibrationPercentage(array[1]),array[2]);//min to mid
-//	xParameters[1]=calcCalibrationPercentage(array[3]),array[1]);//mid to max
-	
-	
-	//Calbrate Y-axis
-//	yParameters[0]=calcCalibrationPercentage(array[0]),array[4]);//min to mid
-//	yParameters[1]=calcCalibrationPercentage(array[5]),array[0]);//mid to max
-	
-}
-
-
-
-
-int8_t calcCalibParam(uint8_t x1,uint8_t x2,uint8_t X)
-{
-	//skalering: Y->0-JOYSTICK_RESOLUTION_POST_CALIBRATION; X->X2-X1
-	//uint8_t byteOfData=0;
-	
-	double slope=((double)JOYSTICK_RESOLUTION_POST_CALIBRATION/(double)(x2-x1));
-	double f=(slope*((double)(X-x1)));
-	
-	//printf("\n\rSEEE!! %f : %f : %d : %d : %d\n\r",slope,f,x1,x2,X_variabel);	
-	//if(byteOfData=usartReceiveByte()=='y');
-	return (int8_t)f;
-	
-}
-
-void getXPosition(uint8_t xUncalibratedPos,int8_t *xCalibratedPos)
-{
-	//uint8_t byteOfData=0;
-	uint8_t XMid=array[1];	
-	if(xUncalibratedPos>XMid)
+	if(xUncalibratedPos>ptr->joyData[JOY_X_AXIS_MID])
 	{
-		*xCalibratedPos=calcCalibParam(array[1],array[3],xUncalibratedPos);
-			
+		*xCalibratedPos=calcCalibParam(ptr->joyData[JOY_X_AXIS_MID],ptr->joyData[JOY_X_AXIS_MAX],xUncalibratedPos);			
 	}
 	else
 	{
-		*xCalibratedPos=calcCalibParam(array[1],array[2],xUncalibratedPos)*(-1);
+		*xCalibratedPos=calcCalibParam(ptr->joyData[JOY_X_AXIS_MID],ptr->joyData[JOY_X_AXIS_MIN],xUncalibratedPos)*(-1);
 	}
-	//printf("\n\r%d : %d : %d \n\r",XMid,xCalibratedPos,xUncalibratedPos);
-	//if(byteOfData=usartReceiveByte()=='y');			
+			
 }
 
-void getYPosition(uint8_t yUncalibratedPos, int8_t *yCalibratedPos)
+void joyGetPosY(uint8_t yUncalibratedPos, int8_t *yCalibratedPos)
 {
-		uint8_t YMid=array[0];
-		if(yUncalibratedPos>YMid)
+		globalStruct *ptr=&globalVar;
+		
+		if(yUncalibratedPos>ptr->joyData[JOY_Y_AXIS_MID])
 		{
-			*yCalibratedPos=calcCalibParam(array[0],array[5],yUncalibratedPos);			
+			*yCalibratedPos=calcCalibParam(ptr->joyData[JOY_Y_AXIS_MID],ptr->joyData[JOY_Y_AXIS_MAX],yUncalibratedPos);			
 		}
 		else
 		{
-			*yCalibratedPos=calcCalibParam(array[0],array[4],yUncalibratedPos)*(-1);		
+			*yCalibratedPos=calcCalibParam(ptr->joyData[JOY_Y_AXIS_MID],ptr->joyData[JOY_Y_AXIS_MIN],yUncalibratedPos)*(-1);			
 		}
 		
 }

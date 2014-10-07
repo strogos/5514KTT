@@ -56,11 +56,14 @@ When doing integer division it is usually better to round to the nearest integer
 #define USART_OPERATING_MODE_U2X false//----//Define USART operating mode
 #define USART_BAUDRATE 9600//---------------//Define USART baud rate
 #define USART_ENABLE_printf true//----------//Link printf() to usart 
+#define USART_INTERRUPT_RX true//-----------//use interrupt to receive data?
+/*USART MACROS*/
+
 
 /*Function Declarations*/
-void usartInitialize(void);
-uint8_t usartReceiveByte(void);
-void usartSendByte(uint8_t byteToSend);
-void usartSendDataString(const char *dataString);
+void usartInitialize(void);//----------------------Init. UART
+uint8_t usartReadByte(void);//------------------Read a byte using USART
+void usartSendByte(uint8_t byteToSend);//----------Send a byte using USART
+void usartSendDataString(const char *dataString);//Send a string of data using USART
 
 #endif /* USART_H_ */

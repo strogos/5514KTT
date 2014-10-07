@@ -8,7 +8,7 @@
 #include "ADC.h"
 void adcInit()
 {
-	// MALLOC?
+	
 }
 uint8_t adcRead(uint8_t adcChannel)
 {
@@ -29,7 +29,7 @@ uint8_t adcRead(uint8_t adcChannel)
 	//Choose address to work with in the ADC based on channel set in adcChannel
 	*adcAddressing = (0x04|adcChannel);
 	
-	_delay_ms(10);//add delay between reads (if no delay; adc will read from the prevously selected channel )
+	_delay_us(40);//add delay between reads - AT LEAST 40uS if using interrupt for ADC0844CNN (if no delay; adc will read from the prevously selected channel )
 		
 	//wait for data to be read (..implement interrupt!!!)
 	while(PINE & (1<<PINE0));//test PINE0 for changes (pin is cleared)

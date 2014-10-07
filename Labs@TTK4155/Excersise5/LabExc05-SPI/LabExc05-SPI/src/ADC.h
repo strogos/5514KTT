@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdbool.h> //...takes up a bit too much memory to use boolean type actively(one byte)....
 //#include <string.h>
+#include <avr/interrupt.h>
 #include "main.h"
 
 
