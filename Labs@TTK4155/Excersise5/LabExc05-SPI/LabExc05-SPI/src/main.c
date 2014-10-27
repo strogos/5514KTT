@@ -63,10 +63,52 @@ int main (void)
 	//SPI stuff
 	spiInit();
 	
-	while(true)
-	{		
-		spiSendData(220);	
-		_delay_ms(200);
+	// testing spi driver write read
+	/*spiSlaveSelect();
+	spi_putc(0x02);
+	spi_putc(0xda);
+	spi_putc(0xab);
+	spiSlaveDeselect();
+	
+	spiSlaveSelect();
+	spi_putc(0x03);
+	spi_putc(0xda);
+	printf("\n\r0x%02x",spi_putc(0xff));
+	spiSlaveDeselect();*/
+	
+	//testing mcp2515 driver write, read, 
+	/*mcp2515_write(0xda, 0xf3);
+	printf("\n\r0x%02x", mcp2515_read(0xda));*/
+	
+	can_init(MODE_LOOPBACK);
+	
+	can_message_t message;
+	
+	message.id = 3;
+	message.length = 8;
+	for (uint8_t i=0; i<=7; i++)
+	{
+		message.data[i]=i;
 	}
-
+	message.data[0] = 0x1b;
+	message.data[5] = 0xbb;
+	
+	can_message_send(&message);
+	
+	message.length = 4;
+	for (uint8_t i=0; i<=7; i++)
+	{
+		
+		message.data[i]=2*i;
+	}
+	
+	
+	can_message_send(&message);
+	printf("\n\r0x%02x", mcp2515_read(MCP_RXB0D0));
+		for (uint8_t i=0;i<=7;i++)
+		{
+			printf("\n\r0x%02x", mcp2515_read(MCP_RXB0D0+i));	
+		}
+		
+	
 }

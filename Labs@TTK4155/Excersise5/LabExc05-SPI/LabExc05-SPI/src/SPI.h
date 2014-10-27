@@ -24,14 +24,11 @@
 //#include <util/delay.h>
 //#include <EEPROM.h>
 
-/*header files*/
 
 
 /*Function Declarations*/
-
 void spiInit();
-void spiSendData(uint8_t);
-void spiRecieveData(uint8_t*);
+uint8_t spiSendReceiveData(uint8_t data);//puts a byte (data argument) on the transmission buffer. Returns received data.
 void spiSlaveSelect(void);
 void spiSlaveDeselect(void);
 

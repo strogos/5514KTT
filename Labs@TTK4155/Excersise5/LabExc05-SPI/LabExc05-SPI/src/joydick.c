@@ -30,7 +30,7 @@ uint8_t *joyGetUnscaledXY(uint8_t *joyPos)
 }
 
 
-/*USART.c "GLOBAL" VARIABLES*/
+/*.c "GLOBAL"(file-scope) VARIABLES*/
 //define a structure to hold joydick.c "global" variables to save some memory space
 typedef struct
 {
@@ -41,7 +41,8 @@ typedef struct
 }globalStruct;
 globalStruct globalVar;
 
-uint8_t array[6];
+
+
 void joyCalibrateXY()
 {
 	//some buffer variables/ptrs

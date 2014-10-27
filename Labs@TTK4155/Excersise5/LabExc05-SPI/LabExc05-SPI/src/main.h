@@ -39,6 +39,8 @@ Project properties AVR/GNU C Linker-> Miscellaneous enter linker option:
 #include "joydick.h"
 #include "OLED.h"
 #include "SPI.h"
+#include "MCP2515.h"
+#include "CAN.h"
 /*Function Declarations*/
 int main(void);
 ISR(USART0_RXC_vect,ISR_BLOCK);

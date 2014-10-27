@@ -10,32 +10,29 @@
 
 void spiInit()
 {
-		//MOSI-SCK-SS -> output
-		DDRB|= (1<<PB5)|(1<<PB7)|(1<<PB4);
+	//MOSI-SCK-SS -> output
+	DDRB|= (1<<PB5)|(1<<PB7)|(1<<PB4);
 		
-		//MISO -->input
-		DDRB&= ~(1<<PB6);
+	//MISO -->input
+	DDRB&= ~(1<<PB6);
 		
-		//Atmegega SPI in master mode, clock rate f_crystal/16
-		SPCR=(1<<SPE)|(1<<MSTR)|(1<<SPR0);
+	//Atmega SPI in master mode, clock rate f_crystal/16
+	SPCR=(1<<SPE)|(1<<MSTR)|(1<<SPR0);
 }
 
-void spiSendData(uint8_t data)
+
+uint8_t spiSendReceiveData(uint8_t data)
 {
-	//Start data transmission (SCK? start)
+	uint8_t dataIn;
+	
+	//Start data transmission
 	SPDR=data;
 	
-	//wait until data is sent
+	//wait until data is sent/received
 	while(!(SPSR&(1<<SPIF)));
-}
-
-void spiRecieveData(uint8_t *data)
-{
-	//if sending data: STOP!
-	//spiSendData(0);	
 	
-	//Wait for data to be received
-	while(!(SPSR&(1<<SPIF)));	
+	dataIn = SPDR;
+	return dataIn;		
 }
 
 void spiSlaveSelect(void)

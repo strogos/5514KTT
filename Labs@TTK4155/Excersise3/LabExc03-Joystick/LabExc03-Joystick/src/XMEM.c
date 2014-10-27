@@ -32,8 +32,7 @@ void xmemInit(void)
 		* External Memory High Mask - 4 bits released
 	*/
 	
-}//MALLOC??
-
+}
 void xmemTest()
 {
 	volatile uint8_t *ext_ram = 0x1800;  // Start address for the XMEM   

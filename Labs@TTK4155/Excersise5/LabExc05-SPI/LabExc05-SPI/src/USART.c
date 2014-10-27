@@ -66,7 +66,7 @@ void usartInitialize()
 
 
 
-/*USART.c "GLOBAL" VARIABLES*/
+/*USART.c "GLOBAL"(file-scope) VARIABLES*/
 //define a structure to hold usart.c "global" variables to save some memory space
 typedef struct 
 {

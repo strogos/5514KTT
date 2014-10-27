@@ -47,19 +47,22 @@ int main (void)
 	
 	
 	uint8_t *test= malloc(4*sizeof(uint8_t));
-	//uint8_t array[4];
+	//uint8_t ptr->joyData[JOY_Y_AXIS_MIN];
 	
 	
 	uint8_t buffer1=adcRead(ADC_CH1_JOY_Y_AXIS);
 	uint8_t buffer2=adcRead(ADC_CH2_JOY_X_AXIS);
 	
+
+	usartSendDataString("\r\n\n@ECHO ON\r\n");
 	
-	
-	joystickCalibrate();
+	joyCalibrateXY();
+
+
 	int8_t x,y=0;
 	while(true)
 	{	
-		test=joystickInitialize(test);
+		test=joyGetUnscaledXY(test);
 		//buffer1=(test[0]/2);
 		//test= joystickInitialize();
 		//printf("\n\r%d",test[0]);
@@ -68,9 +71,9 @@ int main (void)
 		buffer1=adcRead(ADC_CH1_JOY_Y_AXIS);
 		buffer2=adcRead(ADC_CH2_JOY_X_AXIS);
 		//printf("\n\rX POS: %d\n\r",buffer2);
-		getXPosition(buffer2,&x);
+		joyGetPosX(buffer2,&x);
 		//printf("x POS: %d",x);
-		getYPosition(buffer1,&y);
+		joyGetPosY(buffer1,&y);
 		printf("\n\ry = %d, x = %d, Unscaled_Y = %d, Uncaled_X = %d",y,x,test[2],test[3]);
 		//printf("\n\rY = %d, X = %d, Mid_Y = %d, Mid_X = %d",test[0],test[1],test[2],test[3]);
 		_delay_ms(150);
@@ -104,28 +107,14 @@ int main (void)
 	
 	//printf("%d",freeRam());
 	
-	usartSendDataString("\r\n\n@ECHO ON\r\n");
+
 	
 	//Program loop
-	while(true)
-	{
-		if(!interruptOn)
-		{
+	/*while(true)
+	{		
 			//echo received data
 			byteOfData=usartReceiveByte();
-			usartSendByte(byteOfData);
-		}
-	}
+			usartSendByte(byteOfData);		
+	}*/
 	
-
-}
-
-//interrupt function
-ISR (USART0_RXC_vect,ISR_BLOCK)
-{
-	if (interruptOn)
-	{
-		byteOfData=UDR0;//grab byte
-		UDR0=byteOfData;//echo grabbed byte
-	}
 }
