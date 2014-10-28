@@ -10,7 +10,6 @@
 #define MCP2515_H_
 
 /*DEFINITIONS/CONFIG*/
-
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
 /*
@@ -23,7 +22,6 @@ v1.00       2003/12/11  Initial release
 
 Copyright 2003 Kimberly Otten Software Consulting
 */
-
 
 // Define MCP2515 register addresses
 #define MCP_RXF0SIDH	0x00
@@ -175,9 +173,6 @@ Copyright 2003 Kimberly Otten Software Consulting
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
 
-/*Global constants*/
-//extern const var variable
-
 /*header files*/
 #include <asf.h>
 //#include <stdlib.h>
@@ -187,7 +182,6 @@ Copyright 2003 Kimberly Otten Software Consulting
 //#include <util/delay.h>
 //#include <EEPROM.h>
 #include "SPI.h"
-
 
 /*Function Declarations*/
 void mcp2515_write(uint8_t address, uint8_t data);

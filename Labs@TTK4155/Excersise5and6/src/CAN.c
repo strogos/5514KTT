@@ -1,9 +1,8 @@
 /*
  * CAN.c
  *
- *  Created: 21.10.2014 14:05:43
+ * Created: 21.10.2014 14:05:43
  *  Author: sveigri
- *	Modified by:
  */ 
 
 #pragma once
@@ -25,7 +24,7 @@ uint8_t can_init(uint8_t mode)
 {
 
 	
-	mcp2515_reset();//device enters configuration mode on reset
+	mcp2515_reset();//------------------------------------------------------------------------------------//device enters configuration mode on reset
 	
 	if (mode!=MODE_CONFIG)
 	{
@@ -66,13 +65,12 @@ uint8_t can_init(uint8_t mode)
 uint8_t can_message_send(can_message_t *message)
 {
 	uint8_t length = message->length;
-	uint8_t txreqFlag=(mcp2515_read_status()&(1<<2));//-------------------------------------//check txreq bit state using read status instruction
+	uint8_t txreqFlag=(mcp2515_read_status()&(1<<2));//-------------------------------------------------//check txreq bit state using read status instruction
 	
 	if (txreqFlag)
 	{
-		//for simplicity: we won't try to send a 
-		//new message if a transmission is already being sent
-		return can_message_transmit_err_chk();//-------------------------------------------//check txreq bit state using read status instruction
+		//for simplicity: we won't try to send a new message if a transmission is already being sent
+		return can_message_transmit_err_chk();
 	}
 	
 	// setting id; using 11 id bits;
@@ -98,10 +96,10 @@ uint8_t can_message_receive(can_message_t *message)
 	globalStruct *ptr=&globalVar;
 	
 	if (!ptr->intFlagRX0)	
-		return -1;//------------------------------------------------------------------------//no message to fetch from RX0 buffer
+		return -1;//---------------------------------------------------------------------------------------//no message to fetch from RX0 buffer
 		
 	/*fetch message from RX0 buffer*/
-	message->id=(mcp2515_read(MCP_RXB0SIDH)<<3)|(mcp2515_read(MCP_RXB0SIDL)>>5);//----------//"bitshift back" and rebuild the the complete id 
+	message->id=(mcp2515_read(MCP_RXB0SIDH)<<3)|(mcp2515_read(MCP_RXB0SIDL)>>5);//-------------------------//"bitshift back" and rebuild the the complete id 
 	message->length=mcp2515_read(MCP_RXB0DLC)&MCP_CANCTRL;
 	//fetch data
 	for(int i=0; i<message->length; i++)
@@ -109,8 +107,8 @@ uint8_t can_message_receive(can_message_t *message)
 		message->data[i]=mcp2515_read(MCP_RXB0D0+i);
 	}
 	
-	ptr->intFlagRX0=0; //-------------------------------------------------------------------//reset flag after msg fetch
-	return 1; //----------------------------------------------------------------------------//message fetched from RX0 buffer
+	ptr->intFlagRX0=0; //reset flag after msg fetch
+	return 1; //message fetched from RX0 buffer
 }
 
 uint8_t can_message_transmit_err_chk(void)
@@ -119,20 +117,20 @@ uint8_t can_message_transmit_err_chk(void)
 	
 	//TO BE REVIEWED;
 	if (err&(1<<4))
-		return -1;//-------------------------------------------------------------------------//transmission error detected
+		return -1;//------------------------------------------------------------------------------------//transmission error detected
 	if (err&(1<<5))
-		return -2;//-------------------------------------------------------------------------//Message lost arbitration while being sent. (msg with higher priority is being sent instead)
+		return -2;//------------------------------------------------------------------------------------//Message lost arbitration while being sent. (msg with higher priority is being sent instead)
 	
-	return 0;//------------------------------------------------------------------------------//no error detected
+	return 0;//no error detected
 }
 
-/*interrupt vector for CAN RX (CONNECT TO INT0 on atmega to INT pin on mcp2515)*/
+//interrupt vector for CAN RX0 (CONNECT TO INT0 on atmega to INT pin on mcp2515)
 ISR (INT0_vect)
 {		
-	if(mcp2515_read(MCP_EFLG)&(1<<6))//-----------------------------------------------------//accept message if no overflow detected on RX0 (checking EFLG[6])
+	if(mcp2515_read(MCP_EFLG)&(1<<6))//-----------------------------------------------------------------//accept message if no overflow detected on RX0 (checking EFLG[6])
 	{
 		globalStruct *ptr=&globalVar;
-		ptr->intFlagRX0=1;//----------------------------------------------------------------//flag the interrupt
+		ptr->intFlagRX0=1;//---------------------------------------------------------------------------//flag the interrupt
 	}
 	
 	//clear RX0 interrupt flag (TODO:move to transmit func.??)

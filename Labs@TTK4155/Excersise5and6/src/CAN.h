@@ -12,8 +12,6 @@
 /*DEFINITIONS/CONFIG*/
 
 
-
-
 /*header files*/
 #include <asf.h>
 //#include <stdlib.h>
@@ -23,10 +21,8 @@
 //#include <util/delay.h>
 //#include <EEPROM.h>
 
-
-
 /*GLOBAL*/
-//can message structure
+//CAN msg structure
 typedef struct
 {
 	unsigned int id;
@@ -34,7 +30,8 @@ typedef struct
 	uint8_t data[8];
 	
 }can_message_t;
-//Function Declarations
+
+/*Function Declarations*/
 uint8_t can_init(uint8_t mode);
 uint8_t can_message_send(can_message_t *message);
 uint8_t can_message_receive(can_message_t *message);
