@@ -9,7 +9,7 @@ Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LabExc03-Joystick", "..\Exc
 EndProject
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LabExc04-OLED", "..\Excersise4\LabExc04-OLED\LabExc04-OLED\LabExc04-OLED.cproj", "{BC75ED00-5EE3-4262-BD9E-F0FD12109CC0}"
 EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LabExc05and06-SPI_CAN", "..\Excersise5and6\LabExc05and06-SPI_CAN.cproj", "{F888DA7C-50E1-4502-A532-BB7C90C754FC}"
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LabExc05andExc06-SPIandCAN", "..\Excersise5and6\LabExc05andExc06-SPIandCAN.cproj", "{F888DA7C-50E1-4502-A532-BB7C90C754FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

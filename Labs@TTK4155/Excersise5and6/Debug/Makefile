@@ -115,9 +115,9 @@ src/XMEM.d \
 src/ASF/common/boards/user_board/init.d \
 src/main.d
 
-OUTPUT_FILE_PATH +=LabExc05and06-SPI_CAN.elf
+OUTPUT_FILE_PATH +=LabExc05andExc06-SPIandCAN.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=LabExc05and06-SPI_CAN.elf
+OUTPUT_FILE_PATH_AS_ARGS +=LabExc05andExc06-SPIandCAN.elf
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -186,13 +186,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 4.8.1
-	$(QUOTE)D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="LabExc05and06-SPI_CAN.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega162 -Wl,--relax  
+	$(QUOTE)D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="LabExc05andExc06-SPIandCAN.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega162 -Wl,--relax  
 	@echo Finished building target: $@
-	"D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "LabExc05and06-SPI_CAN.elf" "LabExc05and06-SPI_CAN.hex"
-	"D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "LabExc05and06-SPI_CAN.elf" "LabExc05and06-SPI_CAN.eep" || exit 0
-	"D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "LabExc05and06-SPI_CAN.elf" > "LabExc05and06-SPI_CAN.lss"
-	"D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "LabExc05and06-SPI_CAN.elf" "LabExc05and06-SPI_CAN.srec"
-	"D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-size.exe" "LabExc05and06-SPI_CAN.elf"
+	"D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "LabExc05andExc06-SPIandCAN.elf" "LabExc05andExc06-SPIandCAN.hex"
+	"D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "LabExc05andExc06-SPIandCAN.elf" "LabExc05andExc06-SPIandCAN.eep" || exit 0
+	"D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "LabExc05andExc06-SPIandCAN.elf" > "LabExc05andExc06-SPIandCAN.lss"
+	"D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "LabExc05andExc06-SPIandCAN.elf" "LabExc05andExc06-SPIandCAN.srec"
+	"D:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-size.exe" "LabExc05andExc06-SPIandCAN.elf"
 	
 	
 
@@ -204,5 +204,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP)
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "LabExc05and06-SPI_CAN.elf" "LabExc05and06-SPI_CAN.a" "LabExc05and06-SPI_CAN.hex" "LabExc05and06-SPI_CAN.lss" "LabExc05and06-SPI_CAN.eep" "LabExc05and06-SPI_CAN.map" "LabExc05and06-SPI_CAN.srec" "LabExc05and06-SPI_CAN.usersignatures"
+	rm -rf "LabExc05andExc06-SPIandCAN.elf" "LabExc05andExc06-SPIandCAN.a" "LabExc05andExc06-SPIandCAN.hex" "LabExc05andExc06-SPIandCAN.lss" "LabExc05andExc06-SPIandCAN.eep" "LabExc05andExc06-SPIandCAN.map" "LabExc05andExc06-SPIandCAN.srec" "LabExc05andExc06-SPIandCAN.usersignatures"
 	
